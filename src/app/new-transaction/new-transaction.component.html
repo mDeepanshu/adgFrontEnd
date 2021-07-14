@@ -1,0 +1,56 @@
+<div class="container">
+  <form [formGroup]="transactionForm" (ngSubmit)="onSaveForm()">
+    <div class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <h2>{{ date }}</h2>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input
+            class="form-control"
+            formControlName="principle"
+            type="number"
+          />
+          <label for="floatingInput">Principle</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input class="form-control" formControlName="itemName" type="text" />
+          <label for="floatingInput">Item Name</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input class="form-control" formControlName="roi" type="number" />
+          <label for="floatingInput">Rate of Interest</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input class="form-control" formControlName="weight" type="number" />
+          <label for="floatingInput">Weight</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button
+          type="submit"
+          [disabled]="!transactionForm.valid"
+          class="btn btn-primary"
+          style="width: 30mm"
+        >
+          Save
+        </button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" style="width: 30mm">Borrow</button>
+      </div>
+    </div>
+  </form>
+</div>

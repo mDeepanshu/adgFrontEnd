@@ -1,0 +1,112 @@
+<div class="row">
+  <app-individual-transactions
+    *ngIf="itComponent"
+    [itData]="itData"
+    (closeComponent)="close()"
+  ></app-individual-transactions>
+</div>
+<div class="container-fluid">
+  <div class="row" id="main">
+    <form [formGroup]="projectForm" (ngSubmit)="onSaveForm()">
+      <div class="row g-3">
+        <div class="col-sm">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="First name"
+          />
+        </div>
+        <div class="col-sm">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="fatherName"
+            placeholder="Father`s Name"
+          />
+        </div>
+        <div class="col-sm">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="village"
+            placeholder="Village"
+          />
+        </div>
+        <div class="col-sm">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="phone"
+            placeholder="Contact Number"
+          />
+        </div>
+        <div class="col-sm">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="caste"
+            placeholder="Caste"
+          />
+        </div>
+      </div>
+      <div class="row p-2">
+        <div class="col-sm d-flex justify-content-center">
+          <button
+            type="submit"
+            [disabled]="!projectForm.valid"
+            class="btn btn-primary"
+            style="width: 75mm"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col mt-5">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">NAME</th>
+              <th scope="col">FATHER`S NAME</th>
+              <th scope="col">VILLAGE</th>
+              <th scope="col">CONTACT NUMBER</th>
+              <th scope="col">CASTE</th>
+              <th scope="col">NEW TRANSACTION</th>
+              <th scope="col">VIEW TRANSACTION</th>
+              <th scope="col">EDIT CUSTOMER</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let option of customers; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ option.name }}</td>
+              <td>{{ option.fatherName }}</td>
+              <td>{{ option.village }}</td>
+              <td>{{ option.phone }}</td>
+              <td>{{ option.caste }}</td>
+              <td>
+                <button class="btn btn-primary" (click)="openNav(i)">N</button>
+              </td>
+              <td>
+                <button class="btn btn-primary" (click)="open(i)">V</button>
+              </td>
+              <td><button class="btn btn-warning">E</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()"
+      >&times;</a
+    >
+    <div class="div" *ngIf="sideBar">
+      <app-new-transaction [newTrData]="newTrData"></app-new-transaction>
+    </div>
+  </div>
+</div>

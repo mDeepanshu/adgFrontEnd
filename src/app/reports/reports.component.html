@@ -1,0 +1,100 @@
+<div class="container-fluid">
+  <div class="row">
+    <div
+      class="col"
+      style="font-size: large; font-family: Verdana, Geneva, Tahoma, sans-serif"
+    >
+      <div class="row">
+        <div class="row">
+          <div class="col d-flex justify-content-center">BALANCE</div>
+          <div class="col"></div>
+        </div>
+        <div class="row mt-5">
+          <div class="col">TODAY`S DEBIT</div>
+          <div class="col">THIS MONTH`S DEBIT</div>
+          <div class="col">THIS YEAR`S DEBIT</div>
+        </div>
+        <div class="row mt-5">
+          <div class="col">TODAY`S CREDIT</div>
+          <div class="col">THIS MONTH`S CREDIT</div>
+          <div class="col">THIS YEAR`S CREDIT</div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-form-field" appearance="fill">
+              <mat-label>Date Range</mat-label>
+              <mat-date-range-input
+                [formGroup]="mainForm"
+                [rangePicker]="campaignOnePicker"
+              >
+                <input
+                  matStartDate
+                  placeholder="Start date"
+                  formControlName="start"
+                />
+                <input
+                  matEndDate
+                  placeholder="End date"
+                  formControlName="end"
+                />
+              </mat-date-range-input>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="campaignOnePicker"
+              ></mat-datepicker-toggle>
+              <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <button class="btn btn-primary">SHOW</button>
+          </div>
+          <div class="col">
+            <button class="btn btn-primary">PRINT</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">NAME</th>
+                <th scope="col">FATHER`S NAME</th>
+                <th scope="col">VILLAGE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let option of returnedTransactionsOwners; index as i">
+                <th scope="row">{{ i }}</th>
+                <td>{{ option.name }}</td>
+                <td>{{ option.fatherName }}</td>
+                <td>{{ option.village }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">PROFIT</th>
+                <th scope="col">DATE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let option of returnedTransactions; index as i">
+                <td>{{ option.profit }}</td>
+                <td>{{ option.date }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

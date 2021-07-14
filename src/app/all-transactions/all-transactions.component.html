@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Date Range</mat-label>
+        <mat-date-range-input
+          [formGroup]="mainForm"
+          [rangePicker]="campaignOnePicker"
+        >
+          <input
+            matStartDate
+            placeholder="Start date"
+            formControlName="start"
+          />
+          <input matEndDate placeholder="End date" formControlName="end" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="campaignOnePicker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary">SHOW</button>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary" (click)="print()">PRINT</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">DATE</th>
+            <th scope="col">MAIN BALANCE</th>
+            <th scope="col">DESCRIPTION</th>
+            <th scope="col">APPROVE</th>
+            <th scope="col">DECILNE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let option of allTransaction; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ option.date }}</td>
+            <td>{{ option.mainBal }}</td>
+            <td>{{ option.description }}</td>
+            <td><button class="btn btn-primary">APPROVE</button></td>
+            <td><button class="btn btn-primary">DECLINE</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

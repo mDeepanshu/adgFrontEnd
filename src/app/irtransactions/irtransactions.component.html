@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Date Range</mat-label>
+        <mat-date-range-input
+          [formGroup]="mainForm"
+          [rangePicker]="campaignOnePicker"
+        >
+          <input
+            matStartDate
+            placeholder="Start date"
+            formControlName="start"
+          />
+          <input matEndDate placeholder="End date" formControlName="end" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="campaignOnePicker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary">SHOW</button>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary" (click)="print()">PRINT</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">NAME</th>
+            <th scope="col">FATHER`S NAME</th>
+            <th scope="col">VILLAGE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let option of transactionsOwners; index as i">
+            <th scope="row">{{ i }}</th>
+            <td>{{ option.name }}</td>
+            <td>{{ option.fatherName }}</td>
+            <td>{{ option.village }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">ITEM</th>
+            <th scope="col">WEIGHT</th>
+            <th scope="col">PRINCIPLE</th>
+            <th scope="col">R.O.I</th>
+            <th scope="col">ISSUE DATE</th>
+            <th scope="col">RETURNED</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let option of transactions; index as i">
+            <th scope="row">{{ i }}</th>
+            <td>{{ option.item }}</td>
+            <td>{{ option.weight }}</td>
+            <td>{{ option.principle }}</td>
+            <td>{{ option.roi }}</td>
+            <td>{{ option.issueDate }}</td>
+            <td>{{ option.returned }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
