@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MainServiceService } from '../main-service.service';
 
 @Component({
   selector: 'app-irtransactions',
@@ -7,7 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./irtransactions.component.css'],
 })
 export class IRtransactionsComponent implements OnInit {
-  constructor() {}
+  constructor(private mainservice: MainServiceService) {}
   transactionsOwners;
   transactions;
   mainForm: FormGroup;
@@ -16,6 +17,9 @@ export class IRtransactionsComponent implements OnInit {
     this.mainForm = new FormGroup({
       start: new FormControl(),
       end: new FormControl(),
+    });
+    this.mainservice.getIRTransaction().then((transaction) => {
+      this.transactions = transaction;
     });
   }
   print() {

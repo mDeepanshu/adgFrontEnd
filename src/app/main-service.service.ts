@@ -128,7 +128,7 @@ export class MainServiceService {
   getDC() {
     return new Promise((response, reject) => {
       this.http
-        .post(`${this.url}/transaction/getDC`, 'idArray')
+        .get(`${this.url}/transaction/getDC`)
         .pipe(
           map((resData: ResponseType) => {
             for (let i = 0; i < resData.message.length; i++) {
@@ -157,6 +157,59 @@ export class MainServiceService {
     return new Promise((response, reject) => {
       this.http
         .post(`${this.url}/transaction/new_debitCredit`, body)
+        .subscribe((responseData: ResponseType) => {
+          let isError = this.checkForErr(
+            responseData.status,
+            responseData.message
+          );
+          if (isError) {
+            reject('http request failed' + responseData.message);
+          } else {
+            response(responseData.message);
+          }
+        });
+    });
+  }
+  getIRTransaction() {
+    return new Promise((response, reject) => {
+      this.http
+        .get(`${this.url}/transaction/get_RandI_Transaction`)
+        .subscribe((responseData: ResponseType) => {
+          let isError = this.checkForErr(
+            responseData.status,
+            responseData.message
+          );
+          if (isError) {
+            reject('http request failed' + responseData.message);
+          } else {
+            response(responseData.message);
+          }
+        });
+    });
+  }
+
+  getRT() {
+    return new Promise((response, reject) => {
+      this.http
+        .get(`${this.url}/transaction/getRT`)
+        .subscribe((responseData: ResponseType) => {
+          let isError = this.checkForErr(
+            responseData.status,
+            responseData.message
+          );
+          if (isError) {
+            reject('http request failed' + responseData.message);
+          } else {
+            response(responseData.message);
+          }
+        });
+    });
+  }
+
+  getAllT() {
+    return new Promise((response, reject) => {
+      this.http
+        .get(`${this.url}/transaction/allT`)
         .subscribe((responseData: ResponseType) => {
           let isError = this.checkForErr(
             responseData.status,
