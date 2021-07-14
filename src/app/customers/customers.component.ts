@@ -19,6 +19,7 @@ export class CustomersComponent implements OnInit {
   itData; // it - Individual Transaction
   newTrData = ''; //New Transaction Data
   customers;
+
   ngOnInit() {
     this.projectForm = new FormGroup({
       name: new FormControl(null, Validators.required),
@@ -33,6 +34,7 @@ export class CustomersComponent implements OnInit {
       this.customers = data;
     });
   }
+
   onSaveForm() {
     this.mainservice.addCustomer(this.projectForm.value).then(() => {
       this._snackBar.open('Customer Saved', 'Close');

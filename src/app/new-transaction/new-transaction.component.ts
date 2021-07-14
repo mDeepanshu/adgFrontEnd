@@ -35,11 +35,9 @@ export class NewTransactionComponent implements OnInit {
     obj.cusId = this.newTrData;
     obj.issueDate = this.date;
     obj.returned = false;
-    this.mainservice
-      .addIssueTransaction(this.transactionForm.value)
-      .then(() => {
-        this._snackBar.open('Transaction Saved', 'Close');
-        this.transactionForm.reset();
-      });
+    this.mainservice.addTransaction(this.transactionForm.value).then(() => {
+      this._snackBar.open('Transaction Saved', 'Close');
+      this.transactionForm.reset();
+    });
   }
 }

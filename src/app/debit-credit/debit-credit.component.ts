@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MainServiceService } from '../main-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-debit-credit',
@@ -6,7 +9,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./debit-credit.component.css'],
 })
 export class DebitCreditComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private mainservice: MainServiceService,
+    private _snackBar: MatSnackBar
+  ) {}
+  projectForm: FormGroup;
   dcArray;
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.projectForm = new FormGroup({
+      amount: new FormControl(null, Validators.required),
+      description: new FormControl(null, Validators.required),
+    });
+    this.mainservice.getDC().then((data) => {
+      console.log(data);
+      this.dcArray = data;
+    });
+  }
+  onSaveForm() {
+    this.projectForm.value.dcDate = new Date();
+    console.log(this.projectForm.value);
+
+    this.mainservice.newDC(this.projectForm.value).then(() => {
+      this._snackBar.open('Debit Credit Saved', 'Close');
+      this.dcArray.push(this.projectForm.value);
+      this.projectForm.reset();
+    });
+  }
 }

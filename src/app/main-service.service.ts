@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import openSocket from 'socket.io-client';
 import { HttpClient } from '@angular/common/http';
 import { ResponseType } from './models/responseType';
-
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
@@ -29,7 +29,7 @@ export class MainServiceService {
         });
     });
   }
-  addIssueTransaction(body) {
+  addTransaction(body) {
     return new Promise((response, reject) => {
       this.http
         .post(`${this.url}/transaction/new_issue`, body)
@@ -124,5 +124,50 @@ export class MainServiceService {
     //   return false;
     // }
     return false;
+  }
+  getDC() {
+    return new Promise((response, reject) => {
+      this.http
+        .post(`${this.url}/transaction/getDC`, 'idArray')
+        .pipe(
+          map((resData: ResponseType) => {
+            for (let i = 0; i < resData.message.length; i++) {
+              let replace = new Date(resData.message[i].dcDate);
+              resData.message[i].dcDate = `${replace.getDate()} / ${
+                Number(replace.getMonth()) + 1
+              } / ${replace.getFullYear()}`;
+            }
+            return resData;
+          })
+        )
+        .subscribe((responseData: ResponseType) => {
+          let isError = this.checkForErr(
+            responseData.status,
+            responseData.message
+          );
+          if (isError) {
+            reject('http request failed' + responseData.message);
+          } else {
+            response(responseData.message);
+          }
+        });
+    });
+  }
+  newDC(body) {
+    return new Promise((response, reject) => {
+      this.http
+        .post(`${this.url}/transaction/new_debitCredit`, body)
+        .subscribe((responseData: ResponseType) => {
+          let isError = this.checkForErr(
+            responseData.status,
+            responseData.message
+          );
+          if (isError) {
+            reject('http request failed' + responseData.message);
+          } else {
+            response(responseData.message);
+          }
+        });
+    });
   }
 }
