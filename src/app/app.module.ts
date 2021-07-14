@@ -30,6 +30,7 @@ const routes: Routes = [
   { path: 'IRtransactions-component', component: IRtransactionsComponent },
   { path: 'IndiTran-component', component: IndividualTransactionsComponent },
   { path: 'Reports-component', component: ReportsComponent },
+  { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({
