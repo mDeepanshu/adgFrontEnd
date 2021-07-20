@@ -1,8 +1,9 @@
-<div class="container-fuild">
+<div class="container-fuild" [hidden]="login">
   <div class="row">
-    <app-header></app-header>
+    <app-header (logoutEvent)="logout()"></app-header>
   </div>
   <div class="row">
     <router-outlet></router-outlet>
   </div>
 </div>
+<app-login *ngIf="login" (onLogin)="onLogin($event)"></app-login>

@@ -35,8 +35,8 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">DATE</th>
-            <th scope="col">MAIN BALANCE</th>
-            <th scope="col">DESCRIPTION</th>
+            <th scope="col">AMOUNT</th>
+            <th scope="col">TYPE</th>
             <th scope="col">APPROVE</th>
             <th scope="col">DECILNE</th>
           </tr>
@@ -45,8 +45,8 @@
           <tr *ngFor="let option of allTransaction; index as i">
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ option.date }}</td>
-            <td>{{ option.mainBal }}</td>
-            <td>{{ option.description }}</td>
+            <td>{{ option.amount }}</td>
+            <td>{{ option.type }}</td>
             <td><button class="btn btn-primary">APPROVE</button></td>
             <td><button class="btn btn-primary">DECLINE</button></td>
           </tr>

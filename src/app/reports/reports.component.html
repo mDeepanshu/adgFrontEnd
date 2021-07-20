@@ -1,60 +1,70 @@
 <div class="container-fluid">
   <div class="row">
     <div
-      class="col"
+      class="col-3"
       style="font-size: large; font-family: Verdana, Geneva, Tahoma, sans-serif"
     >
-      <div class="row">
-        <div class="row">
-          <div class="col d-flex justify-content-center">BALANCE</div>
-          <div class="col"></div>
-        </div>
-        <div class="row mt-5">
-          <div class="col">TODAY`S DEBIT</div>
-          <div class="col">THIS MONTH`S DEBIT</div>
-          <div class="col">THIS YEAR`S DEBIT</div>
-        </div>
-        <div class="row mt-5">
-          <div class="col">TODAY`S CREDIT</div>
-          <div class="col">THIS MONTH`S CREDIT</div>
-          <div class="col">THIS YEAR`S CREDIT</div>
-        </div>
+      <div class="row pt-2 mt-4">
+        <div class="col">BALANCE</div>
+        <div class="col-1">{{ reportsValue[0] }}</div>
+      </div>
+      <div class="row pt-2 mt-5">
+        <div class="col">TODAY`S DEBIT</div>
+        <div class="col-1">{{ reportsValue[1] }}</div>
+      </div>
+      <div class="row pt-2 mt-5">
+        <div class="col">THIS MONTH`S DEBIT</div>
+        <div class="col-1">{{ reportsValue[2] }}</div>
+      </div>
+      <div class="row pt-2 mt-5">
+        <div class="col">THIS YEAR`S DEBIT</div>
+        <div class="col-1">{{ reportsValue[3] }}</div>
+      </div>
+      <div class="row pt-2 mt-5">
+        <div class="col">THIS YEAR`S DEBIT</div>
+        <div class="col-1">{{ reportsValue[4] }}</div>
+      </div>
+      <div class="row pt-2 mt-5">
+        <div class="col">TODAY`S CREDIT</div>
+        <div class="col-1">{{ reportsValue[5] }}</div>
+      </div>
+      <div class="row pt-2 mt-5">
+        <div class="col">THIS MONTH`S CREDIT</div>
+        <div class="col-1">{{ reportsValue[6] }}</div>
+      </div>
+      <div class="row pt-2 mt-5">
+        <div class="col">THIS MONTH`S CREDIT</div>
+        <div class="col-1">{{ reportsValue[6] }}</div>
       </div>
     </div>
     <div class="col">
       <div class="row">
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="example-form-field" appearance="fill">
-              <mat-label>Date Range</mat-label>
-              <mat-date-range-input
-                [formGroup]="mainForm"
-                [rangePicker]="campaignOnePicker"
-              >
-                <input
-                  matStartDate
-                  placeholder="Start date"
-                  formControlName="start"
-                />
-                <input
-                  matEndDate
-                  placeholder="End date"
-                  formControlName="end"
-                />
-              </mat-date-range-input>
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="campaignOnePicker"
-              ></mat-datepicker-toggle>
-              <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <button class="btn btn-primary">SHOW</button>
-          </div>
-          <div class="col">
-            <button class="btn btn-primary">PRINT</button>
-          </div>
+        <div class="col">
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Date Range</mat-label>
+            <mat-date-range-input
+              [formGroup]="mainForm"
+              [rangePicker]="campaignOnePicker"
+            >
+              <input
+                matStartDate
+                placeholder="Start date"
+                formControlName="start"
+              />
+              <input matEndDate placeholder="End date" formControlName="end" />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="campaignOnePicker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <button class="btn btn-primary">SHOW</button>
+        </div>
+        <div class="col">
+          <button class="btn btn-primary">PRINT</button>
         </div>
       </div>
       <div class="row">
@@ -70,7 +80,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let option of returnedTransactionsOwners; index as i">
-                <th scope="row">{{ i }}</th>
+                <th scope="row">{{ i + 1 }}</th>
                 <td>{{ option.name }}</td>
                 <td>{{ option.fatherName }}</td>
                 <td>{{ option.village }}</td>
@@ -89,7 +99,7 @@
             <tbody>
               <tr *ngFor="let option of returnedTransactions; index as i">
                 <td>{{ option.profit }}</td>
-                <td>{{ option.date }}</td>
+                <td>{{ option.returnDate }}</td>
               </tr>
             </tbody>
           </table>

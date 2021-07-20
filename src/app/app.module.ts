@@ -8,7 +8,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AppComponent } from './app.component';
 import { CustomersComponent } from './customers/customers.component';
 import { AllTransactionsComponent } from './all-transactions/all-transactions.component';
@@ -21,16 +22,15 @@ import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewTransactionComponent } from './new-transaction/new-transaction.component';
+import { ReturnDialogueComponent } from './return-dialogue/return-dialogue.component';
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent },
-  { path: 'Customers-component', component: CustomersComponent },
+  { path: '', component: CustomersComponent },
   { path: 'AllTransactions-component', component: AllTransactionsComponent },
   { path: 'DebitCredit-component', component: DebitCreditComponent },
   { path: 'IRtransactions-component', component: IRtransactionsComponent },
   { path: 'IndiTran-component', component: IndividualTransactionsComponent },
   { path: 'Reports-component', component: ReportsComponent },
-  { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({
@@ -46,6 +46,7 @@ const routes: Routes = [
     HeaderComponent,
     LoginComponent,
     NewTransactionComponent,
+    ReturnDialogueComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +54,7 @@ const routes: Routes = [
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatSnackBarModule,
     HttpClientModule,
     AppRoutingModule,
@@ -62,7 +64,7 @@ const routes: Routes = [
     ReactiveFormsModule,
   ],
   exports: [RouterModule],
-  providers: [],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

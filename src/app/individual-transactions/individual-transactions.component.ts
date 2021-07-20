@@ -5,8 +5,10 @@ import {
   EventEmitter,
   OnChanges,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MainServiceService } from '../main-service.service';
 import { Subject } from 'rxjs';
+import { ReturnDialogueComponent } from '../return-dialogue/return-dialogue.component';
 
 @Component({
   selector: 'app-individual-transactions',
@@ -14,11 +16,15 @@ import { Subject } from 'rxjs';
   styleUrls: ['./individual-transactions.component.css'],
 })
 export class IndividualTransactionsComponent implements OnChanges {
-  @Input() itData;
-  it_data = new Subject<{}>();
-  @Output() closeComponent = new EventEmitter<any>();
-  constructor(private mainservice: MainServiceService) {}
   indiTrans;
+  it_data = new Subject<{}>();
+  @Input() itData;
+  @Output() closeComponent = new EventEmitter<any>();
+
+  constructor(
+    private mainservice: MainServiceService,
+    public dialog: MatDialog
+  ) {}
   ngOnInit(): void {}
   close() {
     console.log(this.itData);
@@ -35,5 +41,8 @@ export class IndividualTransactionsComponent implements OnChanges {
       .then((array) => {
         this.indiTrans = array;
       });
+  }
+  return(i) {
+    this.dialog.open(ReturnDialogueComponent, { data: this.indiTrans[i] });
   }
 }

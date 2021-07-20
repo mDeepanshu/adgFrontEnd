@@ -26,7 +26,9 @@ export class DebitCreditComponent implements OnInit {
     });
   }
   onSaveForm() {
-    this.projectForm.value.dcDate = new Date();
+    this.projectForm.value.date = new Date();
+    this.projectForm.value.type = 'DC';
+
     console.log(this.projectForm.value);
 
     this.mainservice.newDC(this.projectForm.value).then(() => {

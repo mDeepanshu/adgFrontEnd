@@ -1,0 +1,11 @@
+<label class="padding">Collected Amount</label>
+<input
+  type="number"
+  class="form-control padding"
+  formControlName="name"
+  placeholder="0"
+  #collectedAmount
+/>
+<button class="btn btn-warning padding" (click)="return(collectedAmount.value)">
+  Return
+</button>

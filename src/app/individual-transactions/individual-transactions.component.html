@@ -41,7 +41,9 @@
           <td>{{ option.issueDate }}</td>
           <td>{{ option.returned }}</td>
           <td>{{ option.amtToPay }}</td>
-          <td><button class="btn btn-warning">R</button></td>
+          <td>
+            <button class="btn btn-warning" (click)="return(i)">R</button>
+          </td>
         </tr>
       </tbody>
     </table>

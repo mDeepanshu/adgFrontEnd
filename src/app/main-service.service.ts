@@ -3,11 +3,14 @@ import openSocket from 'socket.io-client';
 import { HttpClient } from '@angular/common/http';
 import { ResponseType } from './models/responseType';
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class MainServiceService {
   url = 'http://localhost:3000';
+  accountType = new Subject<string>();
 
   constructor(private http: HttpClient) {
     openSocket('http://localhost:3000');
@@ -49,7 +52,7 @@ export class MainServiceService {
   addReturnTransaction(body) {
     return new Promise((response, reject) => {
       this.http
-        .post(`${this.url}/transaction/add_returnTransaction`, body)
+        .post(`${this.url}/transaction/return`, body)
         .subscribe((responseData: ResponseType) => {
           let isError = this.checkForErr(
             responseData.status,
@@ -132,8 +135,8 @@ export class MainServiceService {
         .pipe(
           map((resData: ResponseType) => {
             for (let i = 0; i < resData.message.length; i++) {
-              let replace = new Date(resData.message[i].dcDate);
-              resData.message[i].dcDate = `${replace.getDate()} / ${
+              let replace = new Date(resData.message[i].date);
+              resData.message[i].date = `${replace.getDate()} / ${
                 Number(replace.getMonth()) + 1
               } / ${replace.getFullYear()}`;
             }
@@ -170,19 +173,38 @@ export class MainServiceService {
         });
     });
   }
-  getIRTransaction() {
+  getIRTransaction(from, till) {
     return new Promise((response, reject) => {
       this.http
-        .get(`${this.url}/transaction/get_RandI_Transaction`)
+        .get(
+          `${this.url}/transaction/get_RandI_Transaction?from=${from}&till=${till}`
+        )
+        .pipe(
+          map((resData: ResponseType) => {
+            for (let i = 0; i < resData.message[0].length; i++) {
+              let replace = new Date(resData.message[0][i].issueDate);
+              resData.message[0][i].issueDate = `${replace.getDate()} / ${
+                Number(replace.getMonth()) + 1
+              } / ${replace.getFullYear()}`;
+              //
+              let replaceTwo = new Date(resData.message[0][i].returnDate);
+              resData.message[0][i].returnDate = `${replaceTwo.getDate()} / ${
+                Number(replaceTwo.getMonth()) + 1
+              } / ${replaceTwo.getFullYear()}`;
+            }
+            return resData;
+          })
+        )
         .subscribe((responseData: ResponseType) => {
+          console.log('responseData.message', responseData.message);
           let isError = this.checkForErr(
             responseData.status,
-            responseData.message
+            responseData.message[0]
           );
           if (isError) {
-            reject('http request failed' + responseData.message);
+            reject('http request failed' + responseData.message[0]);
           } else {
-            response(responseData.message);
+            response([responseData.message[0], responseData.message[1]]);
           }
         });
     });
@@ -192,6 +214,49 @@ export class MainServiceService {
     return new Promise((response, reject) => {
       this.http
         .get(`${this.url}/transaction/getRT`)
+        .pipe(
+          map((resData: ResponseType) => {
+            for (let i = 0; i < resData.message[0].length; i++) {
+              let replace = new Date(resData.message[0][i].returnDate);
+              resData.message[0][i].returnDate = `${replace.getDate()} / ${
+                Number(replace.getMonth()) + 1
+              } / ${replace.getFullYear()}`;
+
+              console.log(resData.message[i]);
+            }
+            return resData;
+          })
+        )
+        .subscribe((responseData: ResponseType) => {
+          console.log('responseData.message', responseData.message);
+          let isError = this.checkForErr(
+            responseData.status,
+            responseData.message[0]
+          );
+          if (isError) {
+            reject('http request failed' + responseData.message[0]);
+          } else {
+            response([responseData.message[0], responseData.message[1]]);
+          }
+        });
+    });
+  }
+
+  getAllT() {
+    return new Promise((response, reject) => {
+      this.http
+        .get(`${this.url}/transaction/allT`)
+        .pipe(
+          map((resData: ResponseType) => {
+            for (let i = 0; i < resData.message.length; i++) {
+              let replace = new Date(resData.message[i].date);
+              resData.message[i].date = `${replace.getDate()} / ${
+                Number(replace.getMonth()) + 1
+              } / ${replace.getFullYear()}`;
+            }
+            return resData;
+          })
+        )
         .subscribe((responseData: ResponseType) => {
           let isError = this.checkForErr(
             responseData.status,
@@ -205,12 +270,34 @@ export class MainServiceService {
         });
     });
   }
-
-  getAllT() {
+  checkCredential(userName, password) {
     return new Promise((response, reject) => {
       this.http
-        .get(`${this.url}/transaction/allT`)
+        .get(
+          `${this.url}/other/checkCredential?userName=${userName}&password=${password}`
+        )
         .subscribe((responseData: ResponseType) => {
+          this.accountType.next(responseData.title);
+          console.log(responseData.title);
+          let isError = this.checkForErr(
+            responseData.status,
+            responseData.message
+          );
+          if (isError) {
+            reject('http request failed' + responseData.message);
+          } else {
+            response(responseData.message);
+          }
+        });
+    });
+  }
+  getReportsValue() {
+    return new Promise((response, reject) => {
+      this.http
+        .get(`${this.url}/other/getReportsValue`)
+        .subscribe((responseData: ResponseType) => {
+          console.log('mainservice');
+
           let isError = this.checkForErr(
             responseData.status,
             responseData.message
