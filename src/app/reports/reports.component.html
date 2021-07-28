@@ -6,35 +6,31 @@
     >
       <div class="row pt-2 mt-4">
         <div class="col">BALANCE</div>
-        <div class="col-1">{{ reportsValue[0] }}</div>
+        <div class="col-3">{{ reportsValue[0] }}</div>
       </div>
       <div class="row pt-2 mt-5">
         <div class="col">TODAY`S DEBIT</div>
-        <div class="col-1">{{ reportsValue[1] }}</div>
+        <div class="col-3">{{ reportsValue[1] }}</div>
       </div>
       <div class="row pt-2 mt-5">
         <div class="col">THIS MONTH`S DEBIT</div>
-        <div class="col-1">{{ reportsValue[2] }}</div>
+        <div class="col-3">{{ reportsValue[2] }}</div>
       </div>
       <div class="row pt-2 mt-5">
         <div class="col">THIS YEAR`S DEBIT</div>
-        <div class="col-1">{{ reportsValue[3] }}</div>
+        <div class="col-3">{{ reportsValue[3] }}</div>
       </div>
       <div class="row pt-2 mt-5">
-        <div class="col">THIS YEAR`S DEBIT</div>
-        <div class="col-1">{{ reportsValue[4] }}</div>
+        <div class="col">TODAY`S PROFIT</div>
+        <div class="col-3">{{ reportsValue[4] }}</div>
       </div>
       <div class="row pt-2 mt-5">
-        <div class="col">TODAY`S CREDIT</div>
-        <div class="col-1">{{ reportsValue[5] }}</div>
+        <div class="col">THIS MONTH`S PROFIT</div>
+        <div class="col-3">{{ reportsValue[5] }}</div>
       </div>
       <div class="row pt-2 mt-5">
-        <div class="col">THIS MONTH`S CREDIT</div>
-        <div class="col-1">{{ reportsValue[6] }}</div>
-      </div>
-      <div class="row pt-2 mt-5">
-        <div class="col">THIS MONTH`S CREDIT</div>
-        <div class="col-1">{{ reportsValue[6] }}</div>
+        <div class="col">THIS MONTH`S PROFIT</div>
+        <div class="col-3">{{ reportsValue[6] }}</div>
       </div>
     </div>
     <div class="col">
@@ -61,7 +57,7 @@
           </mat-form-field>
         </div>
         <div class="col">
-          <button class="btn btn-primary">SHOW</button>
+          <button class="btn btn-primary" (click)="show()">SHOW</button>
         </div>
         <div class="col">
           <button class="btn btn-primary">PRINT</button>

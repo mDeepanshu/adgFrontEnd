@@ -11,6 +11,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AppComponent } from './app.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CustomersComponent } from './customers/customers.component';
 import { AllTransactionsComponent } from './all-transactions/all-transactions.component';
 import { DebitCreditComponent } from './debit-credit/debit-credit.component';
@@ -54,6 +55,7 @@ const routes: Routes = [
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatAutocompleteModule,
     MatDialogModule,
     MatSnackBarModule,
     HttpClientModule,

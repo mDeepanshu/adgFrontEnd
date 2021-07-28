@@ -33,7 +33,7 @@ export class NewTransactionComponent implements OnInit {
   onSaveForm() {
     let obj = this.transactionForm.value;
     obj.cusId = this.newTrData;
-    obj.issueDate = new Date();
+    obj.issueDate = new Date().getTime();
     this.mainservice.addTransaction(this.transactionForm.value).then(() => {
       this._snackBar.open('Transaction Saved', 'Close');
       this.transactionForm.reset();

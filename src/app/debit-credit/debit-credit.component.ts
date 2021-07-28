@@ -15,6 +15,7 @@ export class DebitCreditComponent implements OnInit {
   ) {}
   projectForm: FormGroup;
   dcArray;
+  dcType = 'CREDIT';
   ngOnInit() {
     this.projectForm = new FormGroup({
       amount: new FormControl(null, Validators.required),
@@ -26,7 +27,7 @@ export class DebitCreditComponent implements OnInit {
     });
   }
   onSaveForm() {
-    this.projectForm.value.date = new Date();
+    this.projectForm.value.date = new Date().getTime();
     this.projectForm.value.type = 'DC';
 
     console.log(this.projectForm.value);
@@ -36,5 +37,8 @@ export class DebitCreditComponent implements OnInit {
       this.dcArray.push(this.projectForm.value);
       this.projectForm.reset();
     });
+  }
+  typeSelect(dcType) {
+    console.log(dcType);
   }
 }

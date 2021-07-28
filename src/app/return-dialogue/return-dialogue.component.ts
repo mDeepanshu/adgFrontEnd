@@ -19,7 +19,7 @@ export class ReturnDialogueComponent implements OnInit {
   return(collectedAmount) {
     let returnTransaction = {
       issueRef: this.data._id,
-      returnDate: new Date(),
+      returnDate: new Date().getTime(),
       profit: Number(collectedAmount) - Number(this.data.principle),
     };
     this.mainservice.addReturnTransaction(returnTransaction).then(() => {

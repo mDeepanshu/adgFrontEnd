@@ -22,7 +22,7 @@
       </mat-form-field>
     </div>
     <div class="col">
-      <button class="btn btn-primary">SHOW</button>
+      <button class="btn btn-primary" (click)="show()">SHOW</button>
     </div>
     <div class="col">
       <button class="btn btn-primary" (click)="print()">PRINT</button>
@@ -37,8 +37,8 @@
             <th scope="col">DATE</th>
             <th scope="col">AMOUNT</th>
             <th scope="col">TYPE</th>
-            <th scope="col">APPROVE</th>
-            <th scope="col">DECILNE</th>
+            <!-- <th scope="col">APPROVE</th>
+            <th scope="col">DECILNE</th> -->
           </tr>
         </thead>
         <tbody>
@@ -47,8 +47,16 @@
             <td>{{ option.date }}</td>
             <td>{{ option.amount }}</td>
             <td>{{ option.type }}</td>
-            <td><button class="btn btn-primary">APPROVE</button></td>
-            <td><button class="btn btn-primary">DECLINE</button></td>
+            <!-- <td>
+              <button class="btn btn-warning" (click)="approve(i)">
+                APPROVE
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="decline(i)">
+                DECLINE
+              </button>
+            </td> -->
           </tr>
         </tbody>
       </table>

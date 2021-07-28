@@ -19,6 +19,9 @@ export class CustomersComponent implements OnInit {
   itData; // it - Individual Transaction
   newTrData = ''; //New Transaction Data
   customers;
+  optionsName;
+  optionsPhone;
+  public timer;
 
   ngOnInit() {
     this.projectForm = new FormGroup({
@@ -67,5 +70,35 @@ export class CustomersComponent implements OnInit {
     this.sideBar = false;
     document.getElementById('mySidebar').style.width = '0';
     document.getElementById('main').style.marginLeft = '0';
+  }
+  //
+  async autoComplete(field) {
+    clearTimeout(this.timer);
+    let value;
+    switch (field) {
+      case 'name':
+        value = 'name';
+        break;
+      case 'phone':
+        value = 'phone';
+        break;
+    }
+    this.timer = setTimeout(async () => {
+      this.optionsName = [];
+      this.optionsPhone = [];
+      console.log(field, this.projectForm.value[value]);
+      // this.optionsName = await this.mainservice.autoCompleteName(
+      //   field,
+      //   this.projectForm.value[value]
+      // );
+      switch (field) {
+        case 'name':
+          // this.optionsName=options
+          break;
+        case 'phone':
+          // this.optionsPhone = options
+          break;
+      }
+    }, 500);
   }
 }

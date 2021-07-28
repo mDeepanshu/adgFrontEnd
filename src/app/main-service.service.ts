@@ -105,7 +105,25 @@ export class MainServiceService {
   getTransaction(id, idArray) {
     return new Promise((response, reject) => {
       this.http
-        .post(`${this.url}/transaction/indiTrans?id=${id}`, idArray)
+        .post(`${this.url}/transaction/indiTrans`, idArray)
+        .pipe(
+          map((resData: ResponseType) => {
+            for (let i = 0; i < resData.message.length; i++) {
+              let replace = new Date(resData.message[i].issueDate);
+              resData.message[i].issueDate = `${replace.getDate()} / ${
+                Number(replace.getMonth()) + 1
+              } / ${replace.getFullYear()}`;
+              //
+              if (resData.message[i].returnDate != undefined) {
+                let replaceTwo = new Date(resData.message[i].returnDate);
+                resData.message[i].returnDate = `${replaceTwo.getDate()} / ${
+                  Number(replaceTwo.getMonth()) + 1
+                } / ${replaceTwo.getFullYear()}`;
+              }
+            }
+            return resData;
+          })
+        )
         .subscribe((responseData: ResponseType) => {
           let isError = this.checkForErr(
             responseData.status,
@@ -187,10 +205,12 @@ export class MainServiceService {
                 Number(replace.getMonth()) + 1
               } / ${replace.getFullYear()}`;
               //
-              let replaceTwo = new Date(resData.message[0][i].returnDate);
-              resData.message[0][i].returnDate = `${replaceTwo.getDate()} / ${
-                Number(replaceTwo.getMonth()) + 1
-              } / ${replaceTwo.getFullYear()}`;
+              if (resData.message[0][i].returnDate != undefined) {
+                let replaceTwo = new Date(resData.message[0][i].returnDate);
+                resData.message[0][i].returnDate = `${replaceTwo.getDate()} / ${
+                  Number(replaceTwo.getMonth()) + 1
+                } / ${replaceTwo.getFullYear()}`;
+              }
             }
             return resData;
           })
@@ -210,10 +230,10 @@ export class MainServiceService {
     });
   }
 
-  getRT() {
+  getRT(from, till) {
     return new Promise((response, reject) => {
       this.http
-        .get(`${this.url}/transaction/getRT`)
+        .get(`${this.url}/transaction/getRT?from=${from}&till=${till}`)
         .pipe(
           map((resData: ResponseType) => {
             for (let i = 0; i < resData.message[0].length; i++) {
@@ -242,10 +262,10 @@ export class MainServiceService {
     });
   }
 
-  getAllT() {
+  getAllT(from, till) {
     return new Promise((response, reject) => {
       this.http
-        .get(`${this.url}/transaction/allT`)
+        .get(`${this.url}/transaction/allT?from=${from}&till=${till}`)
         .pipe(
           map((resData: ResponseType) => {
             for (let i = 0; i < resData.message.length; i++) {
@@ -298,6 +318,23 @@ export class MainServiceService {
         .subscribe((responseData: ResponseType) => {
           console.log('mainservice');
 
+          let isError = this.checkForErr(
+            responseData.status,
+            responseData.message
+          );
+          if (isError) {
+            reject('http request failed' + responseData.message);
+          } else {
+            response(responseData.message);
+          }
+        });
+    });
+  }
+  autoCompleteName(field, value) {
+    return new Promise((response, reject) => {
+      this.http
+        .get(`${this.url}/autocomplete?keyword=${value}&limit=${20}`)
+        .subscribe((responseData: ResponseType) => {
           let isError = this.checkForErr(
             responseData.status,
             responseData.message

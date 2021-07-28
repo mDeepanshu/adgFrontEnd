@@ -12,19 +12,31 @@ export class ReportsComponent implements OnInit {
   returnedTransactions;
   mainForm: FormGroup;
   returnedTransactionsOwners;
+  d = new Date();
   reportsValue = [];
   ngOnInit() {
     this.mainForm = new FormGroup({
       start: new FormControl(),
       end: new FormControl(),
     });
-    this.mainservice.getRT().then((document) => {
-      this.returnedTransactions = document[0];
-      this.returnedTransactionsOwners = document[1];
-    });
+    this.mainservice
+      .getRT(this.d.getTime() - 2591989407, this.d.getTime())
+      .then((document) => {
+        this.returnedTransactions = document[0];
+        this.returnedTransactionsOwners = document[1];
+      });
     this.mainservice.getReportsValue().then((ReportsValue: { values; _id }) => {
       this.reportsValue = ReportsValue.values;
       console.log(ReportsValue);
     });
+  }
+  show() {
+    let obj = this.mainForm.value;
+    this.mainservice
+      .getRT(obj.start.getTime(), obj.end.getTime())
+      .then((document) => {
+        this.returnedTransactions = document[0];
+        this.returnedTransactionsOwners = document[1];
+      });
   }
 }

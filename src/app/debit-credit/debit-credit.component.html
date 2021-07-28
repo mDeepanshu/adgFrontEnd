@@ -1,5 +1,18 @@
 <div class="container-fluid">
-  <div class="row p-3">MAKE A DEBIT</div>
+  <div class="row p-3">
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        #dcValue
+        (click)="typeSelect(dcValue.value)"
+        id="flexSwitchCheckDefault"
+      />
+      <label class="form-check-label" for="flexSwitchCheckDefault">
+        MAKE A {{ dcType }}</label
+      >
+    </div>
+  </div>
   <form [formGroup]="projectForm" (ngSubmit)="onSaveForm()">
     <div class="row">
       <div class="col">

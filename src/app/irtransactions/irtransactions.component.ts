@@ -21,12 +21,7 @@ export class IRtransactionsComponent implements OnInit {
       end: new FormControl(),
     });
     this.mainservice
-      .getIRTransaction(
-        `${this.d.getDate()}/${this.d.getMonth()}/${this.d.getFullYear()}`,
-        `${this.d.getDate()}/${
-          Number(this.d.getMonth()) + 1
-        }/${this.d.getFullYear()}`
-      )
+      .getIRTransaction(this.d.getTime() - 2591989407, this.d.getTime())
       .then((document) => {
         this.transactions = document[0];
         let minusCount = 0;
@@ -48,8 +43,10 @@ export class IRtransactionsComponent implements OnInit {
     window.print();
   }
   show() {
+    let obj = this.mainForm.value;
+    console.log(obj.start, obj.end);
     this.mainservice
-      .getIRTransaction(this.mainForm.value.start, this.mainForm.value.start)
+      .getIRTransaction(obj.start.getTime(), obj.end.getTime())
       .then((document) => {
         console.log('transaction', document);
         this.transactions = document[0];

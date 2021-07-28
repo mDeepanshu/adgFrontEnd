@@ -10,44 +10,101 @@
     <form [formGroup]="projectForm" (ngSubmit)="onSaveForm()">
       <div class="row g-3">
         <div class="col-sm">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="name"
-            placeholder="First name"
-          />
+          <mat-form-field>
+            <input
+              type="text"
+              placeholder="FIRST NAME"
+              (input)="autoComplete('name')"
+              formControlName="name"
+              matInput
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of optionsName"
+                [value]="option.name"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
         <div class="col-sm">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="fatherName"
-            placeholder="Father`s Name"
-          />
+          <mat-form-field>
+            <input
+              type="text"
+              placeholder="Father`s Name"
+              formControlName="fatherName"
+              matInput
+              [matAutocomplete]="auto"
+            />
+            <!-- <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of optionsFatherName"
+                [value]="option.name"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete> -->
+          </mat-form-field>
         </div>
         <div class="col-sm">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="village"
-            placeholder="Village"
-          />
+          <mat-form-field>
+            <input
+              type="text"
+              placeholder="Village"
+              formControlName="village"
+              matInput
+              [matAutocomplete]="auto"
+            />
+            <!-- <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of optionsVillage"
+                [value]="option.name"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete> -->
+          </mat-form-field>
         </div>
         <div class="col-sm">
-          <input
-            type="number"
-            class="form-control"
-            formControlName="phone"
-            placeholder="Contact Number"
-          />
+          <mat-form-field>
+            <input
+              type="text"
+              placeholder="Phone"
+              (input)="autoComplete('phone')"
+              formControlName="phone"
+              matInput
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of optionsPhone"
+                [value]="option.name"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
         <div class="col-sm">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="caste"
-            placeholder="Caste"
-          />
+          <mat-form-field>
+            <input
+              type="text"
+              placeholder="Caste"
+              formControlName="caste"
+              matInput
+              [matAutocomplete]="auto"
+            />
+            <!-- <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of optionsCaste"
+                [value]="option.name"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete> -->
+          </mat-form-field>
         </div>
       </div>
       <div class="row p-2">
