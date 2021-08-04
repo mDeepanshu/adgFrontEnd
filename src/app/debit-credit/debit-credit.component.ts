@@ -14,6 +14,9 @@ export class DebitCreditComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {}
   projectForm: FormGroup;
+  dateForm: FormGroup;
+  d = new Date();
+
   dcArray;
   dcType = 'CREDIT';
   ngOnInit() {
@@ -22,10 +25,16 @@ export class DebitCreditComponent implements OnInit {
       description: new FormControl(null, Validators.required),
       type: new FormControl(false),
     });
-    this.mainservice.getDC().then((data) => {
-      console.log(data);
-      this.dcArray = data;
+    this.dateForm = new FormGroup({
+      start: new FormControl(),
+      end: new FormControl(),
     });
+    this.mainservice
+      .getDC(this.d.getTime() - 2591989407, this.d.getTime())
+      .then((data) => {
+        console.log(data);
+        this.dcArray = data;
+      });
   }
   onSaveForm() {
     this.projectForm.value.date = new Date().getTime();
@@ -49,5 +58,14 @@ export class DebitCreditComponent implements OnInit {
     } else {
       this.dcType = 'DEBIT';
     }
+  }
+  show() {
+    let obj = this.dateForm.value;
+    this.mainservice
+      .getDC(obj.start.getTime(), obj.end.getTime())
+      .then((data) => {
+        console.log(data);
+        this.dcArray = data;
+      });
   }
 }

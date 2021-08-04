@@ -45,8 +45,36 @@
       </div>
     </div>
   </form>
-  <hr />
-  <table class="table table-striped">
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Date Range</mat-label>
+        <mat-date-range-input
+          [formGroup]="dateForm"
+          [rangePicker]="campaignOnePicker"
+        >
+          <input
+            matStartDate
+            placeholder="Start date"
+            formControlName="start"
+          />
+          <input matEndDate placeholder="End date" formControlName="end" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="campaignOnePicker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary" (click)="show()">SHOW</button>
+    </div>
+    <!-- <div class="col">
+      <button class="btn btn-primary">PRINT</button>
+    </div> -->
+  </div>
+  <table class="table table-striped" style="zoom: 125%">
     <thead>
       <tr>
         <th scope="col">#</th>
