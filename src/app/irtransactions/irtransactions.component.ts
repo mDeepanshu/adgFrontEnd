@@ -24,19 +24,16 @@ export class IRtransactionsComponent implements OnInit {
       .getIRTransaction(this.d.getTime() - 2591989407, this.d.getTime())
       .then((document) => {
         this.transactions = document[0];
-        let minusCount = 0;
-        for (let i = 0; i < document[0].length; i++) {
-          if (this.map1.get(document[0][i].cusId) == undefined) {
-            this.map1.set(document[0][i].cusId, i);
-            this.transactionsOwners.push(document[1][i - minusCount]);
-          } else {
-            this.transactionsOwners.push(
-              document[1][this.map1.get(document[0][i].cusId)]
-            );
-            minusCount++;
-          }
-        }
-        console.log(this.map1);
+        this.fillOwnerArray(document[1]);
+        // document[0].forEach((element) => {
+        //   this.map1.set(element.cusId, element);
+        // });
+        // console.log(this.map1);
+        // document[1].forEach((element) => {
+        //   console.log(this.map1.get(element._id));
+        //   this.transactionsOwners.push(this.map1.get(element._id));
+        // });
+        // console.log(this.transactionsOwners);
       });
   }
   print() {
@@ -50,7 +47,24 @@ export class IRtransactionsComponent implements OnInit {
       .then((document) => {
         console.log('transaction', document);
         this.transactions = document[0];
-        this.transactionsOwners = document[1];
+        this.fillOwnerArray(document[1]);
       });
+  }
+
+  fillOwnerArray(array) {
+    this.transactionsOwners = [];
+    let minusCount = 0;
+    for (let i = 0; i < this.transactions.length; i++) {
+      if (this.map1.get(this.transactions[i].cusId) == undefined) {
+        this.map1.set(this.transactions[i].cusId, i);
+        this.transactionsOwners.push(array[i - minusCount]);
+      } else {
+        console.log(array[this.map1.get(this.transactions[i].cusId)]);
+        this.transactionsOwners.push(
+          array[this.map1.get(this.transactions[i].cusId)]
+        );
+        minusCount++;
+      }
+    }
   }
 }

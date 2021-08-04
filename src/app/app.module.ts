@@ -24,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 import { ReturnDialogueComponent } from './return-dialogue/return-dialogue.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const routes: Routes = [
   { path: '', component: CustomersComponent },
@@ -57,6 +58,7 @@ const routes: Routes = [
     MatDatepickerModule,
     MatAutocompleteModule,
     MatDialogModule,
+    MatSlideToggleModule,
     MatSnackBarModule,
     HttpClientModule,
     AppRoutingModule,

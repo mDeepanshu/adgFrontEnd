@@ -20,6 +20,7 @@ export class DebitCreditComponent implements OnInit {
     this.projectForm = new FormGroup({
       amount: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
+      type: new FormControl(false),
     });
     this.mainservice.getDC().then((data) => {
       console.log(data);
@@ -28,9 +29,12 @@ export class DebitCreditComponent implements OnInit {
   }
   onSaveForm() {
     this.projectForm.value.date = new Date().getTime();
-    this.projectForm.value.type = 'DC';
-
     console.log(this.projectForm.value);
+    if (this.projectForm.value.type) {
+      this.projectForm.value.type = 'DEBIT';
+    } else {
+      this.projectForm.value.type = 'CREDIT';
+    }
 
     this.mainservice.newDC(this.projectForm.value).then(() => {
       this._snackBar.open('Debit Credit Saved', 'Close');
@@ -38,7 +42,12 @@ export class DebitCreditComponent implements OnInit {
       this.projectForm.reset();
     });
   }
-  typeSelect(dcType) {
-    console.log(dcType);
+  typeSelect() {
+    console.log(this.projectForm.value.type);
+    if (this.projectForm.value.type) {
+      this.dcType = 'CREDIT';
+    } else {
+      this.dcType = 'DEBIT';
+    }
   }
 }

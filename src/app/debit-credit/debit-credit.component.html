@@ -1,25 +1,22 @@
 <div class="container-fluid">
-  <div class="row p-3">
-    <div class="form-check form-switch">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        #dcValue
-        (click)="typeSelect(dcValue.value)"
-        id="flexSwitchCheckDefault"
-      />
-      <label class="form-check-label" for="flexSwitchCheckDefault">
-        MAKE A {{ dcType }}</label
-      >
-    </div>
-  </div>
   <form [formGroup]="projectForm" (ngSubmit)="onSaveForm()">
+    <div class="row p-3">
+      <div class="form-check form-switch">
+        <mat-slide-toggle
+          formControlName="type"
+          (click)="typeSelect()"
+        ></mat-slide-toggle>
+        <label class="form-check-label" for="flexSwitchCheckDefault">
+          MAKE A {{ dcType }}</label
+        >
+      </div>
+    </div>
     <div class="row">
       <div class="col">
         <div class="row">
           <div class="col">
             <input
-              type="text"
+              type="number"
               class="form-control"
               placeholder="Amount"
               formControlName="amount"
@@ -38,7 +35,13 @@
     </div>
     <div class="row p-3">
       <div class="col d-flex justify-content-center">
-        <button class="btn btn-danger" type="submit">Save</button>
+        <button
+          class="btn btn-danger"
+          [disabled]="!projectForm.valid"
+          type="submit"
+        >
+          Save
+        </button>
       </div>
     </div>
   </form>

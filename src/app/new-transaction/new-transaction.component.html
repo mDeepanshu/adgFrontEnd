@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="col">
-        <div class="form-floating mb-3">
+        <div class="form-floating mb-3" [hidden]="borrowStatus">
           <input class="form-control" formControlName="itemName" type="text" />
           <label for="floatingInput">Item Name</label>
         </div>
@@ -25,13 +25,13 @@
     </div>
     <div class="row">
       <div class="col">
-        <div class="form-floating mb-3">
+        <div class="form-floating mb-3" [hidden]="borrowStatus">
           <input class="form-control" formControlName="roi" type="number" />
           <label for="floatingInput">Rate of Interest</label>
         </div>
       </div>
       <div class="col">
-        <div class="form-floating mb-3">
+        <div class="form-floating mb-3" [hidden]="borrowStatus">
           <input class="form-control" formControlName="weight" type="number" />
           <label for="floatingInput">Weight</label>
         </div>
@@ -49,7 +49,18 @@
         </button>
       </div>
       <div class="col">
-        <button class="btn btn-primary" style="width: 30mm">Borrow</button>
+        <label
+          style="font-size: 7mm; padding: 6px; font-weight: 500"
+          class="form-check-label"
+          for="flexSwitchCheckDefault"
+        >
+          BORROW</label
+        >
+        <mat-slide-toggle
+          [(ngModel)]="borrowStatus"
+          [ngModelOptions]="{ standalone: true }"
+          (click)="borrow()"
+        ></mat-slide-toggle>
       </div>
     </div>
   </form>

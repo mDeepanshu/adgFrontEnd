@@ -10,101 +10,62 @@
     <form [formGroup]="projectForm" (ngSubmit)="onSaveForm()">
       <div class="row g-3">
         <div class="col-sm">
-          <mat-form-field>
+          <div class="form-floating mb-3">
             <input
+              class="form-control"
               type="text"
-              placeholder="FIRST NAME"
+              id="floatingInput"
               (input)="autoComplete('name')"
               formControlName="name"
-              matInput
-              [matAutocomplete]="auto"
             />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let option of optionsName"
-                [value]="option.name"
-              >
-                {{ option.name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+            <label for="floatingInput">Name</label>
+          </div>
         </div>
         <div class="col-sm">
-          <mat-form-field>
+          <div class="form-floating mb-3">
             <input
+              class="form-control"
               type="text"
-              placeholder="Father`s Name"
+              id="floatingInput"
               formControlName="fatherName"
-              matInput
-              [matAutocomplete]="auto"
             />
-            <!-- <mat-autocomplete #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let option of optionsFatherName"
-                [value]="option.name"
-              >
-                {{ option.name }}
-              </mat-option>
-            </mat-autocomplete> -->
-          </mat-form-field>
+            <label for="floatingInput">Father`s Name</label>
+          </div>
         </div>
         <div class="col-sm">
-          <mat-form-field>
+          <div class="form-floating mb-3">
             <input
+              class="form-control"
               type="text"
-              placeholder="Village"
+              id="floatingInput"
               formControlName="village"
-              matInput
-              [matAutocomplete]="auto"
             />
-            <!-- <mat-autocomplete #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let option of optionsVillage"
-                [value]="option.name"
-              >
-                {{ option.name }}
-              </mat-option>
-            </mat-autocomplete> -->
-          </mat-form-field>
+            <label for="floatingInput">Village</label>
+          </div>
         </div>
         <div class="col-sm">
-          <mat-form-field>
+          <div class="form-floating mb-3">
             <input
-              type="text"
-              placeholder="Phone"
-              (input)="autoComplete('phone')"
               formControlName="phone"
-              matInput
-              [matAutocomplete]="auto"
+              (input)="autoComplete('phone')"
+              class="form-control"
+              id="floatingInput"
+              type="number"
+              formControlName="phone"
             />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let option of optionsPhone"
-                [value]="option.name"
-              >
-                {{ option.name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+            <label for="floatingInput">Phone</label>
+          </div>
         </div>
         <div class="col-sm">
-          <mat-form-field>
+          <div class="form-floating mb-3">
             <input
-              type="text"
-              placeholder="Caste"
               formControlName="caste"
-              matInput
-              [matAutocomplete]="auto"
+              class="form-control"
+              type="text"
+              id="floatingInput"
             />
-            <!-- <mat-autocomplete #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let option of optionsCaste"
-                [value]="option.name"
-              >
-                {{ option.name }}
-              </mat-option>
-            </mat-autocomplete> -->
-          </mat-form-field>
+            <label for="floatingInput">Caste</label>
+          </div>
         </div>
       </div>
       <div class="row p-2">

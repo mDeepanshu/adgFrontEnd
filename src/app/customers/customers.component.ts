@@ -84,21 +84,11 @@ export class CustomersComponent implements OnInit {
         break;
     }
     this.timer = setTimeout(async () => {
-      this.optionsName = [];
-      this.optionsPhone = [];
-      console.log(field, this.projectForm.value[value]);
-      // this.optionsName = await this.mainservice.autoCompleteName(
-      //   field,
-      //   this.projectForm.value[value]
-      // );
-      switch (field) {
-        case 'name':
-          // this.optionsName=options
-          break;
-        case 'phone':
-          // this.optionsPhone = options
-          break;
-      }
+      let array = await this.mainservice.autoCompleteName(
+        field,
+        this.projectForm.value[value]
+      );
+      this.customers = array;
     }, 500);
   }
 }

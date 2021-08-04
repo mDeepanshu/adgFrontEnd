@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ResponseType } from './models/responseType';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { element } from 'protractor';
 
 @Injectable({
   providedIn: 'root',
@@ -261,7 +262,20 @@ export class MainServiceService {
         });
     });
   }
-
+  indexAll = 1;
+  mainBal = 0;
+  allTobj = {
+    DEBIT: 0,
+    CREDIT: 0,
+    ISSUE: 0,
+    RETURN: 0,
+  };
+  allTTotalObj = {
+    DEBIT: 0,
+    CREDIT: 0,
+    ISSUE: 0,
+    RETURN: 0,
+  };
   getAllT(from, till) {
     return new Promise((response, reject) => {
       this.http
@@ -269,6 +283,34 @@ export class MainServiceService {
         .pipe(
           map((resData: ResponseType) => {
             for (let i = 0; i < resData.message.length; i++) {
+              if (resData.message[i].mainBal == undefined) {
+                resData.message[i].index = this.indexAll;
+                this.allTobj[resData.message[i].type] +=
+                  resData.message[i].amount;
+                if (resData.message[i].type == 'DEBIT' || 'ISSUE') {
+                  resData.message[i].main_bal =
+                    this.mainBal - resData.message[i].amount;
+                  this.mainBal = this.mainBal - resData.message[i].amount;
+                } else {
+                  resData.message[i].main_bal =
+                    this.mainBal + resData.message[i].amount;
+                }
+                this.indexAll++;
+              } else {
+                this.indexAll = 1;
+                this.mainBal = resData.message[i].mainBal;
+                resData.message[i] = { ...resData.message[i], ...this.allTobj };
+                  this.allTTotalObj.DEBIT+= this.allTobj.DEBIT,
+                  this.allTTotalObj.CREDIT+= this.allTobj.CREDIT,
+                  this.allTTotalObj.ISSUE+= this.allTobj.ISSUE,
+                  this.allTTotalObj.RETURN+= this.allTobj.RETURN,
+                this.allTobj = {
+                  DEBIT: 0,
+                  CREDIT: 0,
+                  ISSUE: 0,
+                  RETURN: 0,
+                };
+              }
               let replace = new Date(resData.message[i].date);
               resData.message[i].date = `${replace.getDate()} / ${
                 Number(replace.getMonth()) + 1
@@ -285,7 +327,7 @@ export class MainServiceService {
           if (isError) {
             reject('http request failed' + responseData.message);
           } else {
-            response(responseData.message);
+            response({forTable:responseData.message,forTotal:this.allTTotalObj});
           }
         });
     });
@@ -333,7 +375,11 @@ export class MainServiceService {
   autoCompleteName(field, value) {
     return new Promise((response, reject) => {
       this.http
-        .get(`${this.url}/autocomplete?keyword=${value}&limit=${20}`)
+        .get(
+          `${
+            this.url
+          }/customer/autocomplete?keyword=${value}&limit=${20}&field=${field}`
+        )
         .subscribe((responseData: ResponseType) => {
           let isError = this.checkForErr(
             responseData.status,

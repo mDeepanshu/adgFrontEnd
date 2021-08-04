@@ -13,6 +13,7 @@ export class NewTransactionComponent implements OnInit {
     private mainservice: MainServiceService,
     private _snackBar: MatSnackBar
   ) {}
+  borrowStatus = false;
   transactionForm: FormGroup;
   @Input() newTrData = '';
   public date =
@@ -38,5 +39,20 @@ export class NewTransactionComponent implements OnInit {
       this._snackBar.open('Transaction Saved', 'Close');
       this.transactionForm.reset();
     });
+  }
+  borrow() {
+    console.log(this.borrowStatus);
+    if (this.borrowStatus) {
+      this.transactionForm.get('roi').setValidators(Validators.required);
+      this.transactionForm.get('itemName').setValidators(Validators.required);
+      this.transactionForm.get('weight').setValidators(Validators.required);
+    } else {
+      this.transactionForm.get('roi').clearValidators();
+      this.transactionForm.get('itemName').clearValidators();
+      this.transactionForm.get('weight').clearValidators();
+    }
+    this.transactionForm.get('roi').updateValueAndValidity();
+    this.transactionForm.get('itemName').updateValueAndValidity();
+    this.transactionForm.get('weight').updateValueAndValidity();
   }
 }
