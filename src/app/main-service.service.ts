@@ -12,7 +12,20 @@ import { element } from 'protractor';
 export class MainServiceService {
   url = 'http://localhost:3000';
   accountType = new Subject<string>();
-
+  indexAll = 1;
+  mainBal = 0;
+  allTobj = {
+    DEBIT: 0,
+    CREDIT: 0,
+    ISSUE: 0,
+    RETURN: 0,
+  };
+  allTTotalObj = {
+    DEBIT: 0,
+    CREDIT: 0,
+    ISSUE: 0,
+    RETURN: 0,
+  };
   constructor(private http: HttpClient) {
     openSocket('http://localhost:3000');
   }
@@ -104,23 +117,37 @@ export class MainServiceService {
     });
   }
   getTransaction(id, idArray) {
+    let d = new Date().getTime();
     return new Promise((response, reject) => {
       this.http
         .post(`${this.url}/transaction/indiTrans`, idArray)
         .pipe(
           map((resData: ResponseType) => {
             for (let i = 0; i < resData.message.length; i++) {
-              let replace = new Date(resData.message[i].issueDate);
-              resData.message[i].issueDate = `${replace.getDate()} / ${
-                Number(replace.getMonth()) + 1
-              } / ${replace.getFullYear()}`;
               //
               if (resData.message[i].returnDate != undefined) {
                 let replaceTwo = new Date(resData.message[i].returnDate);
                 resData.message[i].returnDate = `${replaceTwo.getDate()} / ${
                   Number(replaceTwo.getMonth()) + 1
                 } / ${replaceTwo.getFullYear()}`;
+              } else {
+                resData.message[i].amtToPay = Math.round(
+                  (resData.message[i].principle *
+                    resData.message[i].roi *
+                    (d - resData.message[i].issueDate)) /
+                    (86400000 * 30)
+                );
+                console.log(
+                  resData.message[i].issueDate,
+                  typeof resData.message[i].issueDate
+                );
               }
+              //
+              let replace = new Date(resData.message[i].issueDate);
+              resData.message[i].issueDate = `${replace.getDate()} / ${
+                Number(replace.getMonth()) + 1
+              } / ${replace.getFullYear()}`;
+              //
             }
             return resData;
           })
@@ -262,20 +289,7 @@ export class MainServiceService {
         });
     });
   }
-  indexAll = 1;
-  mainBal = 0;
-  allTobj = {
-    DEBIT: 0,
-    CREDIT: 0,
-    ISSUE: 0,
-    RETURN: 0,
-  };
-  allTTotalObj = {
-    DEBIT: 0,
-    CREDIT: 0,
-    ISSUE: 0,
-    RETURN: 0,
-  };
+
   getAllT(from, till) {
     return new Promise((response, reject) => {
       this.http
