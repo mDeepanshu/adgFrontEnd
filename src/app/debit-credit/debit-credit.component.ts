@@ -16,6 +16,7 @@ export class DebitCreditComponent implements OnInit {
   projectForm: FormGroup;
   dateForm: FormGroup;
   d = new Date();
+  page = 1;
 
   dcArray;
   dcType = 'CREDIT';
@@ -30,7 +31,7 @@ export class DebitCreditComponent implements OnInit {
       end: new FormControl(),
     });
     this.mainservice
-      .getDC(this.d.getTime() - 2591989407, this.d.getTime())
+      .getDC(this.d.getTime() - 2591989407, this.d.getTime(), this.page)
       .then((data) => {
         console.log(data);
         this.dcArray = data;
@@ -59,13 +60,28 @@ export class DebitCreditComponent implements OnInit {
       this.dcType = 'DEBIT';
     }
   }
-  show() {
+  show(page) {
+    let from, till;
+    if (page == 0 || this.page + page < 1) {
+      this.page = 1;
+    } else {
+      this.page += page;
+    }
     let obj = this.dateForm.value;
-    this.mainservice
-      .getDC(obj.start.getTime(), obj.end.getTime())
-      .then((data) => {
+    if (obj.start == null || obj.end == null) {
+      from = this.d.getTime() - 2591989407;
+      till = this.d.getTime();
+    } else {
+      from = obj.start.getTime();
+      till = obj.end.getTime();
+    }
+    this.mainservice.getDC(from, till, this.page).then((data: []) => {
+      if (data.length == 0) {
+        this.page--;
+      } else {
         console.log(data);
         this.dcArray = data;
-      });
+      }
+    });
   }
 }

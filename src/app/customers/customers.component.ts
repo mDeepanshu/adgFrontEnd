@@ -22,6 +22,7 @@ export class CustomersComponent implements OnInit {
   optionsName;
   optionsPhone;
   public timer;
+  onPage = 1;
 
   ngOnInit() {
     this.projectForm = new FormGroup({
@@ -32,7 +33,7 @@ export class CustomersComponent implements OnInit {
       village: new FormControl(null, Validators.required),
     });
 
-    this.mainservice.getCustomer().then((data) => {
+    this.mainservice.getCustomer(1).then((data) => {
       console.log(data);
       this.customers = data;
     });
@@ -90,5 +91,19 @@ export class CustomersComponent implements OnInit {
       );
       this.customers = array;
     }, 500);
+  }
+  pageChange(direc) {
+    this.onPage += direc;
+    if (this.onPage < 1) {
+      this.onPage = 1;
+    }
+    console.log(this.onPage);
+    this.mainservice.getCustomer(this.onPage).then((data: []) => {
+      if (data.length == 0) {
+        this.onPage--;
+      } else {
+        this.customers = data;
+      }
+    });
   }
 }

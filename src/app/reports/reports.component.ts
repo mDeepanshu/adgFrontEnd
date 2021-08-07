@@ -14,13 +14,14 @@ export class ReportsComponent implements OnInit {
   returnedTransactionsOwners;
   d = new Date();
   reportsValue = [];
+  page = 1;
   ngOnInit() {
     this.mainForm = new FormGroup({
       start: new FormControl(),
       end: new FormControl(),
     });
     this.mainservice
-      .getRT(this.d.getTime() - 2591989407, this.d.getTime())
+      .getRT(this.d.getTime() - 2591989407, this.d.getTime(), 1)
       .then((document) => {
         this.returnedTransactions = document[0];
         this.returnedTransactionsOwners = document[1];
@@ -30,13 +31,28 @@ export class ReportsComponent implements OnInit {
       console.log(ReportsValue);
     });
   }
-  show() {
+  show(page) {
+    let from, till;
+    if (page == 0 || this.page + page < 1) {
+      this.page = 1;
+    } else {
+      this.page += page;
+    }
     let obj = this.mainForm.value;
-    this.mainservice
-      .getRT(obj.start.getTime(), obj.end.getTime())
-      .then((document) => {
+    if (obj.start == null || obj.end == null) {
+      from = this.d.getTime() - 2591989407;
+      till = this.d.getTime();
+    } else {
+      from = obj.start.getTime();
+      till = obj.end.getTime();
+    }
+    this.mainservice.getRT(from, till, this.page).then((document) => {
+      if (document[0].length == 0) {
+        this.page--;
+      } else {
         this.returnedTransactions = document[0];
         this.returnedTransactionsOwners = document[1];
-      });
+      }
+    });
   }
 }

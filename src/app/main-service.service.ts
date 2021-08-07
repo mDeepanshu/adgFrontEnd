@@ -4,12 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { ResponseType } from './models/responseType';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { element } from 'protractor';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MainServiceService {
+  // 'https://adj-backend.herokuapp.com'
+  // 'http://localhost:3000'
   url = 'http://localhost:3000';
   accountType = new Subject<string>();
   indexAll = 1;
@@ -27,7 +28,7 @@ export class MainServiceService {
     RETURN: 0,
   };
   constructor(private http: HttpClient) {
-    openSocket('http://localhost:3000');
+    openSocket(this.url);
   }
   addCustomer(body) {
     return new Promise((response, reject) => {
@@ -97,10 +98,10 @@ export class MainServiceService {
         });
     });
   }
-  getCustomer() {
+  getCustomer(page) {
     return new Promise((response, reject) => {
       this.http
-        .get(`${this.url}/customer/getCustomer`)
+        .get(`${this.url}/customer/getCustomer?page=${page}`)
         .subscribe((responseData: ResponseType) => {
           console.log('mainservice');
 
@@ -174,18 +175,20 @@ export class MainServiceService {
     // }
     return false;
   }
-  getDC(from, till) {
+  getDC(from, till, page) {
     return new Promise((response, reject) => {
       this.http
-        .get(`${this.url}/transaction/getDC?from=${from}&till=${till}`)
+        .get(
+          `${this.url}/transaction/getDC?from=${from}&till=${till}&page=${page}`
+        )
         .pipe(
           map((resData: ResponseType) => {
-            for (let i = 0; i < resData.message.length; i++) {
-              let replace = new Date(resData.message[i].date);
-              resData.message[i].date = `${replace.getDate()} / ${
-                Number(replace.getMonth()) + 1
-              } / ${replace.getFullYear()}`;
-            }
+            resData.message.forEach((element) => {
+              let date = new Date(element.date);
+              element.date = `${date.getDate()}/${
+                date.getMonth() + 1
+              }/${date.getFullYear()}`;
+            });
             return resData;
           })
         )
@@ -219,27 +222,26 @@ export class MainServiceService {
         });
     });
   }
-  getIRTransaction(from, till) {
+  getIRTransaction(from, till, page) {
     return new Promise((response, reject) => {
       this.http
         .get(
-          `${this.url}/transaction/get_RandI_Transaction?from=${from}&till=${till}`
+          `${this.url}/transaction/get_RandI_Transaction?from=${from}&till=${till}&page=${page}`
         )
         .pipe(
           map((resData: ResponseType) => {
-            for (let i = 0; i < resData.message[0].length; i++) {
-              let replace = new Date(resData.message[0][i].issueDate);
-              resData.message[0][i].issueDate = `${replace.getDate()} / ${
-                Number(replace.getMonth()) + 1
-              } / ${replace.getFullYear()}`;
-              //
-              if (resData.message[0][i].returnDate != undefined) {
-                let replaceTwo = new Date(resData.message[0][i].returnDate);
-                resData.message[0][i].returnDate = `${replaceTwo.getDate()} / ${
+            resData.message[0].forEach((element) => {
+              let date = new Date(element.issueDate);
+              element.issueDate = `${date.getDate()}/${
+                date.getMonth() + 1
+              }/${date.getFullYear()}`;
+              if (element.returnDate != undefined) {
+                let replaceTwo = new Date(element.returnDate);
+                element.returnDate = `${replaceTwo.getDate()} / ${
                   Number(replaceTwo.getMonth()) + 1
                 } / ${replaceTwo.getFullYear()}`;
               }
-            }
+            });
             return resData;
           })
         )
@@ -258,25 +260,24 @@ export class MainServiceService {
     });
   }
 
-  getRT(from, till) {
+  getRT(from, till, page) {
     return new Promise((response, reject) => {
       this.http
-        .get(`${this.url}/transaction/getRT?from=${from}&till=${till}`)
+        .get(
+          `${this.url}/transaction/getRT?from=${from}&till=${till}&page=${page}`
+        )
         .pipe(
           map((resData: ResponseType) => {
-            for (let i = 0; i < resData.message[0].length; i++) {
-              let replace = new Date(resData.message[0][i].returnDate);
-              resData.message[0][i].returnDate = `${replace.getDate()} / ${
-                Number(replace.getMonth()) + 1
-              } / ${replace.getFullYear()}`;
-
-              console.log(resData.message[i]);
-            }
+            resData.message[0].forEach((element) => {
+              let date = new Date(element.returnDate);
+              element.returnDate = `${date.getDate()}/${
+                date.getMonth() + 1
+              }/${date.getFullYear()}`;
+            });
             return resData;
           })
         )
         .subscribe((responseData: ResponseType) => {
-          console.log('responseData.message', responseData.message);
           let isError = this.checkForErr(
             responseData.status,
             responseData.message[0]
@@ -290,30 +291,36 @@ export class MainServiceService {
     });
   }
 
-  getAllT(from, till) {
+  getAllT(from, till, page) {
     return new Promise((response, reject) => {
       this.http
-        .get(`${this.url}/transaction/allT?from=${from}&till=${till}`)
+        .get(
+          `${this.url}/transaction/allT?from=${from}&till=${till}&page=${page}`
+        )
         .pipe(
           map((resData: ResponseType) => {
-            for (let i = 0; i < resData.message.length; i++) {
-              if (resData.message[i].mainBal == undefined) {
-                resData.message[i].index = this.indexAll;
-                this.allTobj[resData.message[i].type] +=
-                  resData.message[i].amount;
-                if (resData.message[i].type == 'DEBIT' || 'ISSUE') {
-                  resData.message[i].main_bal =
-                    this.mainBal - resData.message[i].amount;
-                  this.mainBal = this.mainBal - resData.message[i].amount;
+            // for (let i = 0; i < resData.message.length; i++) {
+            resData.message.forEach((element) => {
+              if (element.mainBal == undefined) {
+                element.index = this.indexAll;
+                this.allTobj[element.type] += element.amount;
+                if (element.type == 'DEBIT' || 'ISSUE') {
+                  element.main_bal = this.mainBal - element.amount;
+                  this.mainBal = this.mainBal - element.amount;
                 } else {
-                  resData.message[i].main_bal =
-                    this.mainBal + resData.message[i].amount;
+                  element.main_bal = this.mainBal + element.amount;
                 }
                 this.indexAll++;
               } else {
+                let replace = new Date(element.date);
+                // console.log(replace);
+                element.date = `${replace.getDate()} / ${
+                  Number(replace.getMonth()) + 1
+                } / ${replace.getFullYear()}`;
+                // console.log(element.date);
                 this.indexAll = 1;
-                this.mainBal = resData.message[i].mainBal;
-                resData.message[i] = { ...resData.message[i], ...this.allTobj };
+                this.mainBal = element.mainBal;
+                element = { ...element, ...this.allTobj };
                 (this.allTTotalObj.DEBIT += this.allTobj.DEBIT),
                   (this.allTTotalObj.CREDIT += this.allTobj.CREDIT),
                   (this.allTTotalObj.ISSUE += this.allTobj.ISSUE),
@@ -325,11 +332,8 @@ export class MainServiceService {
                     RETURN: 0,
                   });
               }
-              let replace = new Date(resData.message[i].date);
-              resData.message[i].date = `${replace.getDate()} / ${
-                Number(replace.getMonth()) + 1
-              } / ${replace.getFullYear()}`;
-            }
+            });
+
             return resData;
           })
         )

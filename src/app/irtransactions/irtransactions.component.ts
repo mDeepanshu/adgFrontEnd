@@ -14,6 +14,7 @@ export class IRtransactionsComponent implements OnInit {
   mainForm: FormGroup;
   d = new Date();
   map1 = new Map();
+  page = 1;
 
   ngOnInit() {
     this.mainForm = new FormGroup({
@@ -21,33 +22,41 @@ export class IRtransactionsComponent implements OnInit {
       end: new FormControl(),
     });
     this.mainservice
-      .getIRTransaction(this.d.getTime() - 2591989407, this.d.getTime())
+      .getIRTransaction(this.d.getTime() - 2591989407, this.d.getTime(), 1)
       .then((document) => {
         this.transactions = document[0];
         this.fillOwnerArray(document[1]);
-        // document[0].forEach((element) => {
-        //   this.map1.set(element.cusId, element);
-        // });
-        // console.log(this.map1);
-        // document[1].forEach((element) => {
-        //   console.log(this.map1.get(element._id));
-        //   this.transactionsOwners.push(this.map1.get(element._id));
-        // });
-        // console.log(this.transactionsOwners);
       });
   }
   print() {
     window.print();
   }
-  show() {
+  show(page) {
+    let from, till;
+    if (page == 0 || this.page + page < 1) {
+      this.page = 1;
+    } else {
+      this.page += page;
+    }
+    console.log(this.page);
     let obj = this.mainForm.value;
-    console.log(obj.start, obj.end);
+    if (obj.start == null || obj.end == null) {
+      from = this.d.getTime() - 2591989407;
+      till = this.d.getTime();
+    } else {
+      from = obj.start.getTime();
+      till = obj.end.getTime();
+    }
     this.mainservice
-      .getIRTransaction(obj.start.getTime(), obj.end.getTime())
+      .getIRTransaction(from, till, this.page)
       .then((document) => {
-        console.log('transaction', document);
-        this.transactions = document[0];
-        this.fillOwnerArray(document[1]);
+        console.log(document[0]);
+        if (document[0].length == 0) {
+          this.page--;
+        } else {
+          this.transactions = document[0];
+          this.fillOwnerArray(document[1]);
+        }
       });
   }
 
@@ -59,7 +68,6 @@ export class IRtransactionsComponent implements OnInit {
         this.map1.set(this.transactions[i].cusId, i);
         this.transactionsOwners.push(array[i - minusCount]);
       } else {
-        console.log(array[this.map1.get(this.transactions[i].cusId)]);
         this.transactionsOwners.push(
           array[this.map1.get(this.transactions[i].cusId)]
         );
