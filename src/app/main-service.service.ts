@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { ResponseType } from './models/responseType';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrMsgModuleComponent } from './err-msg-module/err-msg-module.component';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +29,7 @@ export class MainServiceService {
     ISSUE: 0,
     RETURN: 0,
   };
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public dialog: MatDialog) {
     openSocket(this.url);
   }
   addCustomer(body) {
@@ -103,7 +105,7 @@ export class MainServiceService {
       this.http
         .get(`${this.url}/customer/getCustomer?page=${page}`)
         .subscribe((responseData: ResponseType) => {
-          console.log('mainservice');
+          console.log(responseData);
 
           let isError = this.checkForErr(
             responseData.status,
@@ -166,15 +168,7 @@ export class MainServiceService {
         });
     });
   }
-  checkForErr(statusCode, message) {
-    // if (statusCode != 200) {
-    //   this.dialog.open(ErrMsgModuleComponent, { data: message });
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-    return false;
-  }
+
   getDC(from, till, page) {
     return new Promise((response, reject) => {
       this.http
@@ -299,16 +293,18 @@ export class MainServiceService {
         )
         .pipe(
           map((resData: ResponseType) => {
-            // for (let i = 0; i < resData.message.length; i++) {
             resData.message.forEach((element) => {
               if (element.mainBal == undefined) {
                 element.index = this.indexAll;
                 this.allTobj[element.type] += element.amount;
-                if (element.type == 'DEBIT' || 'ISSUE') {
+                console.log(element.type == 'DEBIT' || 'ISSUE');
+                if (element.type == 'DEBIT' || element.type == 'ISSUE') {
                   element.main_bal = this.mainBal - element.amount;
                   this.mainBal = this.mainBal - element.amount;
                 } else {
                   element.main_bal = this.mainBal + element.amount;
+                  console.log('element.main_bal', element.main_bal);
+                  this.mainBal = this.mainBal + element.amount;
                 }
                 this.indexAll++;
               } else {
@@ -361,7 +357,7 @@ export class MainServiceService {
         )
         .subscribe((responseData: ResponseType) => {
           this.accountType.next(responseData.title);
-          console.log(responseData.title);
+          console.log(responseData.status);
           let isError = this.checkForErr(
             responseData.status,
             responseData.message
@@ -413,5 +409,14 @@ export class MainServiceService {
           }
         });
     });
+  }
+  checkForErr(statusCode, message) {
+    if (statusCode != 200) {
+      this.dialog.open(ErrMsgModuleComponent, { data: message });
+      return true;
+    } else {
+      return false;
+    }
+    return false;
   }
 }

@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 import { ReturnDialogueComponent } from './return-dialogue/return-dialogue.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ErrMsgModuleComponent } from './err-msg-module/err-msg-module.component';
 
 const routes: Routes = [
   { path: '', component: CustomersComponent },
@@ -49,6 +50,7 @@ const routes: Routes = [
     LoginComponent,
     NewTransactionComponent,
     ReturnDialogueComponent,
+    ErrMsgModuleComponent,
   ],
   imports: [
     BrowserModule,
