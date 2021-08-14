@@ -26,6 +26,7 @@ import { NewTransactionComponent } from './new-transaction/new-transaction.compo
 import { ReturnDialogueComponent } from './return-dialogue/return-dialogue.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ErrMsgModuleComponent } from './err-msg-module/err-msg-module.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 const routes: Routes = [
   { path: '', component: CustomersComponent },
@@ -55,6 +56,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
+    InfiniteScrollModule,
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,

@@ -30,12 +30,13 @@ export class DebitCreditComponent implements OnInit {
       start: new FormControl(),
       end: new FormControl(),
     });
-    this.mainservice
-      .getDC(this.d.getTime() - 2591989407, this.d.getTime(), this.page)
-      .then((data) => {
-        console.log(data);
-        this.dcArray = data;
-      });
+    // this.mainservice
+    //   .getDC(this.d.getTime() - 2591989407, this.d.getTime(), this.page)
+    //   .then((data) => {
+    //     console.log(data);
+    //     this.dcArray = data;
+    //   });
+    this.show(0);
   }
   onSaveForm() {
     this.projectForm.value.date = new Date().getTime();

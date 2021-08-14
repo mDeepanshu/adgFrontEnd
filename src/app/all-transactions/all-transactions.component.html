@@ -194,7 +194,13 @@
             </div> -->
           </div>
         </div>
-        <div class="table-responsive">
+        <div
+          class="table-responsive"
+          class="search-results"
+          infiniteScroll
+          [infiniteScrollDistance]="2"
+          (scrolled)="onScroll()"
+        >
           <!-- Projects table -->
           <table
             class="table align-items-center table-flush"
@@ -208,7 +214,7 @@
                 <th scope="col">MAIN BALANCE</th>
               </tr>
             </thead>
-            <tbody *ngFor="let option of allTransaction; index as i">
+            <tbody *ngFor="let option of limitedTransaction; index as i">
               <tr
                 *ngIf="option.mainBal == undefined; else elseBlock"
                 style="
@@ -283,3 +289,9 @@
 <script src="../../assets/vendor/chart.js/dist/Chart.extension.js"></script> -->
 <!-- Argon JS -->
 <!-- <script src="../../assets/js/argon.js?v=1.2.0"></script> -->
+<!-- <div
+  class="search-results"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  (scrolled)="onScroll()"
+></div> -->

@@ -32,11 +32,11 @@ export class CustomersComponent implements OnInit {
       phone: new FormControl(null, Validators.required),
       village: new FormControl(null, Validators.required),
     });
-
-    this.mainservice.getCustomer(1).then((data) => {
-      console.log(data);
-      this.customers = data;
-    });
+    this.pageChange(0);
+    // this.mainservice.getCustomer(1).then((data) => {
+    //   console.log(data);
+    //   this.customers = data;
+    // });
   }
 
   onSaveForm() {

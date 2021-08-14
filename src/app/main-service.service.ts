@@ -297,23 +297,19 @@ export class MainServiceService {
               if (element.mainBal == undefined) {
                 element.index = this.indexAll;
                 this.allTobj[element.type] += element.amount;
-                console.log(element.type == 'DEBIT' || 'ISSUE');
                 if (element.type == 'DEBIT' || element.type == 'ISSUE') {
                   element.main_bal = this.mainBal - element.amount;
                   this.mainBal = this.mainBal - element.amount;
                 } else {
                   element.main_bal = this.mainBal + element.amount;
-                  console.log('element.main_bal', element.main_bal);
                   this.mainBal = this.mainBal + element.amount;
                 }
                 this.indexAll++;
               } else {
                 let replace = new Date(element.date);
-                // console.log(replace);
                 element.date = `${replace.getDate()} / ${
                   Number(replace.getMonth()) + 1
                 } / ${replace.getFullYear()}`;
-                // console.log(element.date);
                 this.indexAll = 1;
                 this.mainBal = element.mainBal;
                 element = { ...element, ...this.allTobj };
@@ -329,7 +325,6 @@ export class MainServiceService {
                   });
               }
             });
-
             return resData;
           })
         )

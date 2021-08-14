@@ -21,12 +21,13 @@ export class IRtransactionsComponent implements OnInit {
       start: new FormControl(),
       end: new FormControl(),
     });
-    this.mainservice
-      .getIRTransaction(this.d.getTime() - 2591989407, this.d.getTime(), 1)
-      .then((document) => {
-        this.transactions = document[0];
-        this.fillOwnerArray(document[1]);
-      });
+    // this.mainservice
+    //   .getIRTransaction(this.d.getTime() - 2591989407, this.d.getTime(), 1)
+    //   .then((document) => {
+    //     this.transactions = document[0];
+    //     this.fillOwnerArray(document[1]);
+    //   });
+    this.show(0);
   }
   print() {
     window.print();
@@ -38,7 +39,6 @@ export class IRtransactionsComponent implements OnInit {
     } else {
       this.page += page;
     }
-    console.log(this.page);
     let obj = this.mainForm.value;
     if (obj.start == null || obj.end == null) {
       from = this.d.getTime() - 2591989407;
